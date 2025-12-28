@@ -180,7 +180,6 @@ public class VentBlockEntity extends BlockEntity {
             vent.hermeticArea.addEntity(entity, ((IEntityExtension) entity).beyond_oxygen$getAreasIn());
             if (entity instanceof LivingEntity living) {
                 living.addEffect(new MobEffectInstance(BOEffects.OXYGEN_SATURATION.get(), BOConfig.getTimeToImplode(), 0, false, false));
-                living.setAirSupply(living.getMaxAirSupply());
                 if (vent.temperatureRegulatorApplied) CompatUtils.setComfortableTemperature(living);
             }
         });

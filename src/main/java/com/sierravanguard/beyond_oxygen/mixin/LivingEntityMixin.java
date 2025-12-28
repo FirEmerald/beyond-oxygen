@@ -16,6 +16,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
@@ -78,7 +79,7 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntityE
             }
         }
 
-        if (self.hasEffect(BOEffects.OXYGEN_SATURATION.get())) {
+        if ((!(self instanceof WaterAnimal) || self.isInWaterOrBubble()) && self.hasEffect(BOEffects.OXYGEN_SATURATION.get())) {
             self.setAirSupply(self.getMaxAirSupply());
         }
     }
