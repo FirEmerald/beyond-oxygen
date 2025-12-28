@@ -3,6 +3,8 @@ package com.sierravanguard.beyond_oxygen.utils;
 import com.sierravanguard.beyond_oxygen.BOConfig;
 import com.sierravanguard.beyond_oxygen.blocks.entity.VentBlockEntity;
 import com.sierravanguard.beyond_oxygen.compat.CompatUtils;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
+import com.sierravanguard.beyond_oxygen.extensions.ILivingEntityExtension;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import com.sierravanguard.beyond_oxygen.network.SyncHermeticBlocksS2CPacket;
 import net.minecraft.core.BlockPos;
@@ -12,11 +14,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.valkyrienskies.core.impl.shadow.En;
 
 import java.util.*;
 
@@ -44,7 +48,9 @@ public class HermeticArea {
     double lastComputedVolume;
     private boolean dormant = false;
     private int dormantTicks = 0;
-    private static final int DORMANT_TICK_LIMIT = 20 * 60 * 5; 
+    private static final int DORMANT_TICK_LIMIT = 20 * 60 * 5;
+
+    private final Set<Entity> containedEntities = new HashSet<>();
 
     public HermeticArea(ServerLevel level, long id) {
         this.level = level;
@@ -265,19 +271,12 @@ public class HermeticArea {
         activeVents.clear();
         knownVents.clear();
 
- 
-        List<LivingEntity> toRemove = new ArrayList<>();
-        for (Map.Entry<LivingEntity, Set<HermeticArea>> entry : HermeticAreaManager.entitiesInSealedAreas.entrySet()) {
-            Set<HermeticArea> areas = entry.getValue();
-            if (areas.remove(this) && areas.isEmpty()) {
-                toRemove.add(entry.getKey());
-                if (entry.getKey() instanceof ServerPlayer player) {
-                    NetworkHandler.sendSealedAreaStatusToClient(player, false);
-                }
-            }
-        }
-        toRemove.forEach(HermeticAreaManager.entitiesInSealedAreas::remove);
 
+        this.containedEntities.forEach(entity -> {
+            IEntityExtension extension = (IEntityExtension) entity;
+            extension.beyond_oxygen$getAreasIn().remove(this);
+        });
+        this.containedEntities.clear();
  
         HermeticAreaServerManager.removeAreaDeferred(level, id);
     }
@@ -421,6 +420,21 @@ public class HermeticArea {
                 break;
             }
         }
+    }
+
+    public void addEntity(Entity entity, Collection<HermeticArea> entityAreas) {
+        this.containedEntities.add(entity);
+        entityAreas.add(this);
+    }
+
+    public void removeEntity(Entity entity, Collection<HermeticArea> entityAreas) {
+        this.containedEntities.remove(entity);
+        entityAreas.remove(this);
+    }
+
+    public boolean contains(Entity entity) {
+        BlockPos localPos = CompatUtils.getAreaBlockPos(entity.getEyePosition(), this);
+        return this.contains(localPos);
     }
 
 

@@ -3,6 +3,7 @@ package com.sierravanguard.beyond_oxygen.blocks.entity;
 import com.sierravanguard.beyond_oxygen.BOConfig;
 import com.sierravanguard.beyond_oxygen.BOServerConfig;
 import com.sierravanguard.beyond_oxygen.compat.CompatUtils;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import com.sierravanguard.beyond_oxygen.registry.BOBlockEntities;
 import com.sierravanguard.beyond_oxygen.registry.BOEffects;
 import com.sierravanguard.beyond_oxygen.registry.BOFluids;
@@ -71,8 +72,8 @@ public class VentBlockEntity extends BlockEntity {
         return true;
     }
 
-    private boolean isEntityInsideHermeticArea(LivingEntity entity) {
-        return hermeticArea != null && HermeticAreaManager.updateIsEntityInHermeticArea(entity, hermeticArea);
+    private boolean isEntityInsideHermeticArea(Entity entity) {
+        return hermeticArea != null && hermeticArea.contains(entity);
     }
 
     @Override
@@ -175,9 +176,9 @@ public class VentBlockEntity extends BlockEntity {
 
         vent.hermeticArea.setHasAir(hasAir);
         //System.out.println("Area has air? " + hasAir);
-        if (hasAir && vent.hermeticArea.getBounds() != null) level.getEntities((Entity) null, vent.hermeticArea.getBounds(), e -> e instanceof LivingEntity).forEach(entity -> {
-            LivingEntity living = (LivingEntity) entity;
-            if (vent.isEntityInsideHermeticArea(living)) {
+        if (hasAir && vent.hermeticArea.getBounds() != null) level.getEntities((Entity) null, vent.hermeticArea.getBounds(), vent::isEntityInsideHermeticArea).forEach(entity -> {
+            vent.hermeticArea.addEntity(entity, ((IEntityExtension) entity).beyond_oxygen$getAreasIn());
+            if (entity instanceof LivingEntity living) {
                 living.addEffect(new MobEffectInstance(BOEffects.OXYGEN_SATURATION.get(), BOConfig.getTimeToImplode(), 0, false, false));
                 living.setAirSupply(living.getMaxAirSupply());
                 if (vent.temperatureRegulatorApplied) CompatUtils.setComfortableTemperature(living);

@@ -1,5 +1,6 @@
 package com.sierravanguard.beyond_oxygen.network;
 
+import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.client.HermeticAreaClientManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
@@ -31,10 +32,10 @@ public class InvalidateHermeticAreasPacket {
             if (context.getDirection().getReceptionSide().isClient()) {
                 if (msg.clearAll) {
                     HermeticAreaClientManager.clear();
-                    System.out.println("[Beyond Oxygen] Cleared all client hermetic areas.");
+                    BeyondOxygen.LOGGER.info("Cleared all client hermetic areas.");
                 } else {
                     HermeticAreaClientManager.clearArea(msg.areaId);
-                    System.out.println("[Beyond Oxygen] Cleared client hermetic area for areaId " + msg.areaId);
+                    BeyondOxygen.LOGGER.info("Cleared client hermetic area for areaId {}", msg.areaId);
                 }
             }
         });

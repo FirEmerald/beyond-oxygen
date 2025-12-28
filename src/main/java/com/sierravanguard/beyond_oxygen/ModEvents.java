@@ -135,7 +135,7 @@ public class ModEvents {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
  
             HermeticAreaData.get(serverLevel);
-            System.out.printf("[DEBUG] Preloaded HermeticAreaData for %s\n", serverLevel.dimension().location());
+            BeyondOxygen.LOGGER.debug("Preloaded HermeticAreaData for {}", serverLevel.dimension().location());
         }
     }
 

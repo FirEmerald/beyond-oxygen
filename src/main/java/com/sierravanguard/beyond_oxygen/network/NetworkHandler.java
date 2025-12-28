@@ -3,13 +3,15 @@ package com.sierravanguard.beyond_oxygen.network;
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class NetworkHandler {
-    private static final String PROTOCOL_VERSION = "2";
+    private static final String PROTOCOL_VERSION = "3";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(BeyondOxygen.MODID, "network"),
             () -> PROTOCOL_VERSION,
@@ -43,6 +45,11 @@ public class NetworkHandler {
                 SyncSealedAreaStatusPacket::decode,
                 SyncSealedAreaStatusPacket::handle);
 
+        CHANNEL.registerMessage(nextID(), SyncEntitySealedAreaStatusPacket.class,
+                SyncEntitySealedAreaStatusPacket::encode,
+                SyncEntitySealedAreaStatusPacket::decode,
+                SyncEntitySealedAreaStatusPacket::handle);
+
         CHANNEL.registerMessage(nextID(), BubbleRadiusPacket.class,
                 BubbleRadiusPacket::encode,
                 BubbleRadiusPacket::decode,
@@ -68,9 +75,18 @@ public class NetworkHandler {
         CHANNEL.sendToServer(new SetHelmetOpenPacket(open));
     }
 
-    public static void sendSealedAreaStatusToClient(ServerPlayer player, boolean isInSealedArea) {
+    public static void sendSealedAreaStatusToClients(Entity entity, boolean isInSealedArea) {
+        if (entity instanceof ServerPlayer player) {
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                    new SyncSealedAreaStatusPacket(isInSealedArea));
+        }
+        CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity),
+                new SyncEntitySealedAreaStatusPacket(entity.getId(), isInSealedArea));
+    }
+
+    public static void sendSealedAreaStatusToClient(ServerPlayer player, Entity entity, boolean isInSealedArea) {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
-                new SyncSealedAreaStatusPacket(player.getUUID(), isInSealedArea));
+                new SyncEntitySealedAreaStatusPacket(entity.getId(), isInSealedArea));
     }
 
     public static void sendToAllPlayers(Object pkt) {

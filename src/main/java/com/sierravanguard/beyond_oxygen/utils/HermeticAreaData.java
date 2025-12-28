@@ -1,5 +1,6 @@
 package com.sierravanguard.beyond_oxygen.utils;
 
+import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.network.InvalidateHermeticAreasPacket;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
@@ -33,7 +34,7 @@ public class HermeticAreaData extends SavedData {
             data.areas.put(area.getId(), area);
             data.indexArea(area);
         }
-        System.out.printf("[BO-DEBUG] Loaded %d areas\n", data.getAreas().size());
+        BeyondOxygen.LOGGER.debug("Loaded {} areas", data.getAreas().size());
         return data;
     }
 
@@ -42,7 +43,7 @@ public class HermeticAreaData extends SavedData {
         ListTag list = new ListTag();
         for (HermeticArea area : areas.values()) list.add(area.save());
         tag.put("Areas", list);
-        System.out.printf("[BO-DEBUG] Saving %d areas\n", list.size());
+        BeyondOxygen.LOGGER.debug("Saving {} areas", list.size());
         return tag;
     }
 

@@ -9,7 +9,6 @@ import com.sierravanguard.beyond_oxygen.registry.BOBlockEntities;
 import com.sierravanguard.beyond_oxygen.registry.BOEffects;
 import com.sierravanguard.beyond_oxygen.registry.BOFluids;
 import com.sierravanguard.beyond_oxygen.utils.BubbleGeneratorTracker;
-import com.sierravanguard.beyond_oxygen.utils.HermeticAreaManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

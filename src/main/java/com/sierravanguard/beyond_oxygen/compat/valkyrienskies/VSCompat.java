@@ -1,5 +1,6 @@
 package com.sierravanguard.beyond_oxygen.compat.valkyrienskies;
 
+import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.utils.CryoBedManager;
 import com.sierravanguard.beyond_oxygen.utils.HermeticArea;
 import net.minecraft.core.BlockPos;
@@ -63,7 +64,7 @@ public class VSCompat {
 
             Ship ship = shipData.getById(entry.getKey());
             if (ship instanceof LoadedServerShip serverShip) {
-                System.out.printf("Applying buoyant force to ship %d; Volume: %f\n", shipId, totalVolume);
+                //BeyondOxygen.LOGGER.debug("Applying buoyant force to ship {}; Volume: {}", shipId, totalVolume); removed due to log spam
                 BuoyancyForceInducer.tickOnShip(serverShip, totalVolume);
             }
         }

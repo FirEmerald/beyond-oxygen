@@ -5,10 +5,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.sierravanguard.beyond_oxygen.compat.CompatLoader;
 import com.sierravanguard.beyond_oxygen.compat.valkyrienskies.VSClientCompat;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import com.sierravanguard.beyond_oxygen.client.ClientSealedAreaState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -76,11 +76,8 @@ public final class HermeticWaterMaskRenderer {
 
         List<AABB> aabbs = HermeticAreaClientManager.getAll(level);
         if (aabbs == null || aabbs.isEmpty()) return;
-        UUID playerId = Minecraft.getInstance().player != null
-                ? Minecraft.getInstance().player.getUUID()
-                : null;
         long gameTime = level.getGameTime();
-        boolean inSealed = ClientSealedAreaState.isInSealedArea(playerId);
+        //boolean isSealed = Minecraft.getInstance().player instanceof IEntityExtension extension && extension.beyond_oxygen$isInSealedArea();
 
         for (AABB aabb : aabbs) {
             Long shipId = HermeticAreaClientManager.getShipIdForAABB(aabb);

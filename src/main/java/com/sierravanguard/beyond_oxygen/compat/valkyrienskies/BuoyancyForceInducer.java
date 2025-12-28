@@ -9,17 +9,20 @@ public final class BuoyancyForceInducer implements ShipPhysicsListener {
 
     private final BuoyancyData data;
 
-    public BuoyancyForceInducer(BuoyancyData data) {
-        this.data = data;
+    public BuoyancyForceInducer() {
+        this.data = new BuoyancyData();
     }
     @Override
     public void physTick(@NotNull PhysShip physShip, @NotNull PhysLevel physLevel) {
-        if (data.totalVolume <= 0) return;
+        if (data.totalVolume <= 0) {
+            physShip.setBuoyantFactor(0);
+            return;
+        }
         float buoyance = (float) (0.1 * data.totalVolume);
         physShip.setBuoyantFactor(buoyance);
     }
     public static BuoyancyForceInducer tickOnShip(final LoadedServerShip ship, double sealedVolume) {
-        BuoyancyForceInducer attachment = ship.getOrPutAttachment(BuoyancyForceInducer.class, () -> new BuoyancyForceInducer(new BuoyancyData()));
+        BuoyancyForceInducer attachment = ship.getOrPutAttachment(BuoyancyForceInducer.class, BuoyancyForceInducer::new);
 
         attachment.data.totalVolume = sealedVolume;
 

@@ -1,6 +1,7 @@
 package com.sierravanguard.beyond_oxygen;
 
 import com.sierravanguard.beyond_oxygen.capabilities.HelmetState;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import com.sierravanguard.beyond_oxygen.network.SyncEntityHelmetStatePacket;
 import com.sierravanguard.beyond_oxygen.network.SyncHelmetStatePacket;
@@ -30,11 +31,14 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public static void onStartTracking(PlayerEvent.StartTracking event) {
-        if (event.getEntity() instanceof ServerPlayer player && event.getTarget() instanceof LivingEntity entity) {
-            HelmetState.get(entity).ifPresent(state -> {
-                NetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
-                        new SyncEntityHelmetStatePacket(entity.getId(), state.isOpen()));
-            });
+        if (event.getEntity() instanceof ServerPlayer player) {
+            NetworkHandler.sendSealedAreaStatusToClient(player, event.getTarget(), ((IEntityExtension) event.getEntity()).beyond_oxygen$isInSealedArea());
+            if (event.getTarget() instanceof LivingEntity entity) {
+                HelmetState.get(entity).ifPresent(state -> {
+                    NetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                            new SyncEntityHelmetStatePacket(entity.getId(), state.isOpen()));
+                });
+            }
         }
     }
 

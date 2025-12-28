@@ -1,5 +1,6 @@
 package com.sierravanguard.beyond_oxygen.blocks.entity;
 
+import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.compat.CompatUtils;
 import com.sierravanguard.beyond_oxygen.utils.CryoBedManager;
 import net.minecraft.core.BlockPos;
@@ -28,7 +29,7 @@ public class CryoBedBlockEntity extends BlockEntity {
 
     public void setOwnerUUID(UUID uuid) {
         if (this.ownerUUID != null && !this.ownerUUID.equals(uuid)) {
-            System.out.println("[DEBUG] Cryobed ownership changing from " + this.ownerUUID + " to " + uuid);
+            BeyondOxygen.LOGGER.debug("Cryobed ownership changing from {} to {}", this.ownerUUID, uuid);
         }
 
         this.ownerUUID = uuid;
@@ -50,8 +51,7 @@ public class CryoBedBlockEntity extends BlockEntity {
         UUID playerUUID = player.getUUID();
         Optional<CryoBedManager.CryoBedReference> currentAssignment = CryoBedManager.getAssignedCryoBed(playerUUID);
         if (currentAssignment.isPresent() && !currentAssignment.get().worldPos().equals(this.worldPosition)) {
-            System.out.println("[DEBUG] Player " + player.getName().getString() + " already has cryobed at " +
-                    currentAssignment.get().worldPos() + ", reassigning to " + this.worldPosition);
+            BeyondOxygen.LOGGER.debug("Player {} already has cryobed at {}, reassigning to {}", player.getName().getString(), currentAssignment.get().worldPos(), this.worldPosition);
         }
 
         setOwnerUUID(playerUUID);
@@ -59,7 +59,7 @@ public class CryoBedBlockEntity extends BlockEntity {
 
     public void clearOwner() {
         if (this.ownerUUID != null) {
-            System.out.println("[DEBUG] Clearing owner " + this.ownerUUID + " from cryobed at " + worldPosition);
+            BeyondOxygen.LOGGER.debug("Clearing owner {} from cryobed at {}", this.ownerUUID, worldPosition);
             CryoBedManager.removeCryoBed(level.dimension(), worldPosition);
             this.ownerUUID = null;
             setChanged();

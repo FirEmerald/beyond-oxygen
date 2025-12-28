@@ -1,11 +1,10 @@
 package com.sierravanguard.beyond_oxygen.mixin;
 
-import com.sierravanguard.beyond_oxygen.client.ClientSealedAreaState;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
-import com.sierravanguard.beyond_oxygen.utils.HermeticAreaManager;
+import com.sierravanguard.beyond_oxygen.utils.HermeticArea;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -21,10 +20,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Set;
+import java.util.*;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin {
+public abstract class EntityMixin implements IEntityExtension {
     @Shadow private Level level;
 
     @Shadow public abstract double getX();
@@ -40,21 +39,52 @@ public abstract class EntityMixin {
 
     @Unique
     private boolean neo$isInSealedArea = false;
+    @Unique
+    private final Set<HermeticArea> beyond_oxygen$areas = new HashSet<>();
+    @Unique
+    private int ticksSinceSync = 0;
+
+    @Unique
+    private Entity beyond_oxygen$self() {
+        return (Entity) (Object) this;
+    }
 
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void onBaseTick(CallbackInfo ci) {
-        if ((Object) this instanceof ServerPlayer player && !level.isClientSide) {
-            neo$isInSealedArea = HermeticAreaManager.entitiesInSealedAreas.containsKey(player);
-            NetworkHandler.sendSealedAreaStatusToClient(player, neo$isInSealedArea);
+        if (level.isClientSide()) return;
+        Entity self = beyond_oxygen$self();
+        boolean wasInSealedArea = neo$isInSealedArea;
+        if (beyond_oxygen$areas.isEmpty()) {
+            neo$isInSealedArea = false;
+        } else {
+            List<HermeticArea> toRemove = new ArrayList<>();
+            beyond_oxygen$areas.forEach(area -> {
+                if (!area.contains(self)) toRemove.add(area);
+            });
+            toRemove.forEach(area -> area.removeEntity(self, beyond_oxygen$areas));
+            neo$isInSealedArea = !beyond_oxygen$areas.isEmpty();
         }
+        if (wasInSealedArea != neo$isInSealedArea || ticksSinceSync >= 200) {
+            NetworkHandler.sendSealedAreaStatusToClients(self, neo$isInSealedArea);
+            ticksSinceSync = 0;
+        } else ticksSinceSync++;
     }
-    @Unique
-    private boolean beyond_oxygen$isInSealedArea() {
-        if (level.isClientSide && (Object) this instanceof Player player) {
-            return ClientSealedAreaState.isInSealedArea(player.getUUID());
-        }
+
+    @Override
+    public Collection<HermeticArea> beyond_oxygen$getAreasIn() {
+        return beyond_oxygen$areas;
+    }
+
+    @Override
+    public boolean beyond_oxygen$isInSealedArea() {
         return neo$isInSealedArea;
     }
+
+    @Override
+    public void beyond_oxygen$setIsInSealedArea(boolean value) {
+        this.neo$isInSealedArea = value;
+    }
+
     @WrapMethod(method = "updateFluidHeightAndDoFluidPushing()V", remap = false)
     private void onUpdateFluidHeightAndDoFluidPushing(Operation<Void> original) {
         if (beyond_oxygen$isInSealedArea()) {

@@ -1,14 +1,14 @@
 package com.sierravanguard.beyond_oxygen.mixin;
 
+import com.sierravanguard.beyond_oxygen.compat.CompatLoader;
+import com.sierravanguard.beyond_oxygen.compat.CompatUtils;
 import com.sierravanguard.beyond_oxygen.extensions.ILivingEntityExtension;
+import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import com.sierravanguard.beyond_oxygen.registry.BODamageSources;
 import com.sierravanguard.beyond_oxygen.registry.BODimensions;
 import com.sierravanguard.beyond_oxygen.registry.BOEffects;
 import com.sierravanguard.beyond_oxygen.tags.BOEntityTypeTags;
-import com.sierravanguard.beyond_oxygen.utils.HermeticAreaManager;
-import com.sierravanguard.beyond_oxygen.utils.OxygenHelper;
-import com.sierravanguard.beyond_oxygen.utils.OxygenManager;
-import com.sierravanguard.beyond_oxygen.utils.SpaceSuitHandler;
+import com.sierravanguard.beyond_oxygen.utils.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,9 +25,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.*;
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements ILivingEntityExtension {
-    private static final String COLD_SWEAT_MODID = "cold_sweat";
+    @Unique
+    private LivingEntity beyond_oxygen$self() {
+        return (LivingEntity) (Object) this;
+    }
+
     @Unique
     private int beyond_oxygen$vacuumDamageCooldown = 0;
 
@@ -38,47 +44,44 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntityE
     @Override
     public void beyond_oxygen$tick() {
         if (level().isClientSide()) return;
-        LivingEntity entity = (LivingEntity) (Object) this;
-        OxygenManager.consumeOxygen(entity);
+        LivingEntity self = beyond_oxygen$self();
+        OxygenManager.consumeOxygen(self);
         if (beyond_oxygen$vacuumDamageCooldown > 0) {
             beyond_oxygen$vacuumDamageCooldown--;
         }
-        var hermeticArea = HermeticAreaManager.getHermeticAreaContaining(entity);
-        if (!entity.hasEffect(BOEffects.OXYGEN_SATURATION.get())) {
+        if (!self.hasEffect(BOEffects.OXYGEN_SATURATION.get())) {
             if (BODimensions.isUnbreathable(level())
-                    && !entity.getType().is(BOEntityTypeTags.SURVIVES_VACUUM)
-                    && !OxygenHelper.isInBreathableEnvironment(entity)
-                    && !entity.isUnderWater()) {
+                    && !self.getType().is(BOEntityTypeTags.SURVIVES_VACUUM)
+                    && !OxygenHelper.isInBreathableEnvironment(self)
+                    && !self.isUnderWater()) {
                 if (beyond_oxygen$vacuumDamageCooldown <= 0) {
-                    applyDamageWithMessage(entity, BODamageSources.vacuum(), 5f);
+                    applyDamageWithMessage(self, BODamageSources.vacuum(), 5f);
                     beyond_oxygen$vacuumDamageCooldown = 20;
                 }
                 beyond_oxygen$vacuumDamageCooldown--;
             }
         }
 
-        if (!ModList.get().isLoaded(COLD_SWEAT_MODID)) {
-            var area = HermeticAreaManager.getHermeticAreaContaining(entity);
-            boolean blockedByThermalController = area != null && area.hasActiveTemperatureRegulator();
-            if (BODimensions.isHot(level())
-                    && !entity.getType().is(BOEntityTypeTags.SURVIVES_HOT)
-                    && !SpaceSuitHandler.isWearingFullThermalSuit(entity)
-                    && !blockedByThermalController) {
-                applyDamageWithMessage(entity, BODamageSources.burn(), 5f);
-            }
-            if (BODimensions.isCold(level())
-                    && !entity.getType().is(BOEntityTypeTags.SURVIVES_COLD)
-                    && !SpaceSuitHandler.isWearingFullCryoSuit(entity)
-                    && !blockedByThermalController) {
-                applyDamageWithMessage(entity, BODamageSources.freeze(), 5f);
+        if (!CompatLoader.COLD_SWEAT.isLoaded()) {
+            boolean blockedByThermalController = beyond_oxygen$getAreasIn().stream().anyMatch(HermeticArea::hasActiveTemperatureRegulator);
+            if (!blockedByThermalController) {
+                if (BODimensions.isHot(level())
+                        && !self.getType().is(BOEntityTypeTags.SURVIVES_HOT)
+                        && !SpaceSuitHandler.isWearingFullThermalSuit(self)) {
+                    applyDamageWithMessage(self, BODamageSources.burn(), 5f);
+                }
+                if (BODimensions.isCold(level())
+                        && !self.getType().is(BOEntityTypeTags.SURVIVES_COLD)
+                        && !SpaceSuitHandler.isWearingFullCryoSuit(self)) {
+                    applyDamageWithMessage(self, BODamageSources.freeze(), 5f);
+                }
             }
         }
 
-        if (entity.hasEffect(BOEffects.OXYGEN_SATURATION.get())) {
-            entity.setAirSupply(entity.getMaxAirSupply());
+        if (self.hasEffect(BOEffects.OXYGEN_SATURATION.get())) {
+            self.setAirSupply(self.getMaxAirSupply());
         }
     }
-
 
     private static void applyDamageWithMessage(LivingEntity player, DamageSource source, float amount) {
         if (player.level().isClientSide()) return;
@@ -91,9 +94,8 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntityE
 
     @Inject(method = "increaseAirSupply", at = @At("HEAD"), cancellable = true)
     private void beyondoxygen$preventAirRefillInVacuum(int airIncrement, CallbackInfoReturnable<Integer> cir) {
-        LivingEntity self = (LivingEntity) (Object) this;
-        var area = HermeticAreaManager.getHermeticAreaContaining(self);
-        if (area == null || area.hasAir() || self.hasEffect(BOEffects.OXYGEN_SATURATION.get())) return;
+        LivingEntity self = beyond_oxygen$self();
+        if (self.hasEffect(BOEffects.OXYGEN_SATURATION.get()) || beyond_oxygen$getAreasIn().stream().anyMatch(HermeticArea::hasAir)) return;
         BlockPos headPos = BlockPos.containing(self.getX(), self.getEyeY(), self.getZ());
         boolean headInWater = self.level().getFluidState(headPos).is(FluidTags.WATER);
         if (headInWater) {
@@ -103,9 +105,8 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntityE
 
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void beyondoxygen$decrementAirInVacuum(CallbackInfo ci) {
-        LivingEntity self = (LivingEntity)(Object)this;
-        var area = HermeticAreaManager.getHermeticAreaContaining(self);
-        if (area == null || area.hasAir() || self.hasEffect(BOEffects.OXYGEN_SATURATION.get())) return;
+        LivingEntity self = beyond_oxygen$self();
+        if (self.hasEffect(BOEffects.OXYGEN_SATURATION.get()) || beyond_oxygen$getAreasIn().stream().anyMatch(HermeticArea::hasAir)) return;
         int air = self.getAirSupply() - 1;
         self.setAirSupply(air);
         if (air == -20) {

@@ -1,6 +1,7 @@
 package com.sierravanguard.beyond_oxygen.compat.valkyrienskies;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.joml.Matrix4dc;
@@ -12,10 +13,9 @@ public class VSClientCompat {
     public static Ship getClientShipById(long shipId, Level level) {
         try {
             var ships = VSGameUtilsKt.getShipObjectWorld(level).getAllShips();
-            if (ships == null) return null;
             return ships.getById(shipId);
         } catch (Exception e) {
-            System.out.printf("[HermeticAreaClientManager] Exception for shipId %d: %s%n", shipId, e);
+            BeyondOxygen.LOGGER.warn("Exception for shipId {}: {}", shipId, e);
             return null;
         }
     }

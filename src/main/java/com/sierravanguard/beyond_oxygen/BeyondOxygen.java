@@ -4,7 +4,6 @@ import com.sierravanguard.beyond_oxygen.capabilities.*;
 import com.sierravanguard.beyond_oxygen.compat.CompatLoader;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import com.sierravanguard.beyond_oxygen.registry.*;
-import com.sierravanguard.beyond_oxygen.utils.HermeticAreaManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,7 +30,6 @@ public class BeyondOxygen {
         ModLoadingContext context = ModLoadingContext.get();
         context.registerConfig(ModConfig.Type.COMMON, BOConfig.SPEC);
         context.registerConfig(ModConfig.Type.SERVER, BOServerConfig.SPEC);
-        MinecraftForge.EVENT_BUS.register(HermeticAreaManager.class);
         BOBlocks.BLOCKS.register(modEventBus);
         BOBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         BOItems.ITEMS.register(modEventBus);

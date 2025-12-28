@@ -1,38 +1,36 @@
 package com.sierravanguard.beyond_oxygen.network;
 
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
+import com.sierravanguard.beyond_oxygen.extensions.ILivingEntityExtension;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
-import com.sierravanguard.beyond_oxygen.client.ClientSealedAreaState;
-
 public class SyncSealedAreaStatusPacket {
-    private final UUID playerId;
     private final boolean isInSealedArea;
 
-    public SyncSealedAreaStatusPacket(UUID playerId, boolean isInSealedArea) {
-        this.playerId = playerId;
+    public SyncSealedAreaStatusPacket(boolean isInSealedArea) {
         this.isInSealedArea = isInSealedArea;
     }
 
     public static void encode(SyncSealedAreaStatusPacket msg, FriendlyByteBuf buf) {
-        buf.writeUUID(msg.playerId);
         buf.writeBoolean(msg.isInSealedArea);
     }
 
     public static SyncSealedAreaStatusPacket decode(FriendlyByteBuf buf) {
-        return new SyncSealedAreaStatusPacket(buf.readUUID(), buf.readBoolean());
+        return new SyncSealedAreaStatusPacket(buf.readBoolean());
     }
 
     public static void handle(SyncSealedAreaStatusPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ClientSealedAreaState.setSealedStatus(msg.playerId, msg.isInSealedArea);
-        });
-        ctx.get().setPacketHandled(true);
+        NetworkEvent.Context context = ctx.get();
+        if (context.getDirection().getReceptionSide().isClient()) {
+            context.enqueueWork(() -> {
+                if (Minecraft.getInstance().player instanceof IEntityExtension extension) extension.beyond_oxygen$setIsInSealedArea(msg.isInSealedArea);
+            });
+        }
+        context.setPacketHandled(true);
     }
 
 

@@ -2,7 +2,7 @@ package com.sierravanguard.beyond_oxygen.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.sierravanguard.beyond_oxygen.utils.HermeticAreaManager;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -28,10 +28,9 @@ public abstract class CameraMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null && player.level() != null) {
-            boolean currentlySealed = HermeticAreaManager.entitiesInSealedAreas.containsKey(player);
+        if (player instanceof IEntityExtension extension) {
 
-            if (currentlySealed) {
+            if (extension.beyond_oxygen$isInSealedArea()) {
                 neo$sealedGraceTicks = GRACE_PERIOD;
             } else if (neo$sealedGraceTicks > 0) {
                 neo$sealedGraceTicks--;
