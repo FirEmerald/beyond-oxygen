@@ -19,7 +19,7 @@ public final class BuoyancyForceInducer implements ShipPhysicsListener {
             physShip.setBuoyantFactor(0);
             return;
         }
-        float buoyance = (float) (0.1 * data.totalVolume);
+        float buoyance = (float) (0.01 * data.totalVolume);
         physShip.setBuoyantFactor(buoyance);
     }
     public static BuoyancyForceInducer tickOnShip(final LoadedServerShip ship, double sealedVolume) {
