@@ -277,7 +277,8 @@ public class HermeticArea {
             extension.beyond_oxygen$getAreasIn().remove(this);
         });
         this.containedEntities.clear();
- 
+
+        lastComputedVolume = 0; //this allows the hermetic area server manager to properly update buoyancy values for removed areas
         HermeticAreaServerManager.removeAreaDeferred(level, id);
     }
 

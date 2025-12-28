@@ -180,9 +180,9 @@ public class VentBlockEntity extends BlockEntity {
 
         vent.hermeticArea.setHasAir(hasAir);
         //System.out.println("Area has air? " + hasAir);
-        if (hasAir && vent.hermeticArea.getBounds() != null) level.getEntities((Entity) null, vent.hermeticArea.getBounds(), vent::isEntityInsideHermeticArea).forEach(entity -> {
+        if (vent.hermeticArea.getBounds() != null) level.getEntities((Entity) null, vent.hermeticArea.getBounds(), vent::isEntityInsideHermeticArea).forEach(entity -> {
             vent.hermeticArea.addEntity(entity, ((IEntityExtension) entity).beyond_oxygen$getAreasIn());
-            if (entity instanceof LivingEntity living) {
+            if (hasAir && entity instanceof LivingEntity living) {
                 living.addEffect(new MobEffectInstance(BOEffects.OXYGEN_SATURATION.get(), BOConfig.getTimeToImplode(), 0, false, false));
                 if (vent.temperatureRegulatorApplied) CompatUtils.setComfortableTemperature(living);
             }

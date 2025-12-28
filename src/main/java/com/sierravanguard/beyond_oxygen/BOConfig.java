@@ -17,6 +17,7 @@
         private static final ForgeConfigSpec.BooleanValue COLD_DIMENSIONS;
         private static final ForgeConfigSpec.BooleanValue HOT_DIMENSIONS;
         private static final ForgeConfigSpec.BooleanValue ENABLE_BABY_MODE;
+        private static final ForgeConfigSpec.DoubleValue DEFAULT_DENSITY;
 
         static final ForgeConfigSpec SPEC;
 
@@ -32,6 +33,9 @@
             OXYGEN_CONSUMPTION = builder
                     .comment("How many oxygen units in 1 mb")
                     .define("oxygenConsumption", 10);
+            DEFAULT_DENSITY = builder
+                    .comment("The approximate density of a ships to use in buoyancy calculations. Set to 0 to disable buoyancy.")
+                    .defineInRange("shipDensity", 100d, 0, Double.MAX_VALUE);
 
             BUBBLE_MAX_RADIUS = builder
                     .comment("Maximum radius of bubble generators")
@@ -60,6 +64,7 @@
 
         private static int ventRange;
         private static int oxygenConsumption;
+        private static double defaultDensity;
 
         private static int bubbleMaxRadius;
         private static int timeToImplode;
@@ -74,6 +79,7 @@
             babyMode = ENABLE_BABY_MODE.get();
             ventRange = VENT_RANGE.get();
             oxygenConsumption = OXYGEN_CONSUMPTION.get();
+            defaultDensity = DEFAULT_DENSITY.get();
 
             bubbleMaxRadius = BUBBLE_MAX_RADIUS.get();
             timeToImplode = TIME_TO_IMPLODE.get();
@@ -93,6 +99,10 @@
 
         public static int getOxygenConsumption() {
             return oxygenConsumption;
+        }
+
+        public static double getDefaultDensity() {
+            return defaultDensity;
         }
 
         public static int getTimeToImplode() {

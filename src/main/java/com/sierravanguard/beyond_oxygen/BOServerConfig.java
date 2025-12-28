@@ -16,8 +16,6 @@ public class BOServerConfig {
     private static final ForgeConfigSpec.ConfigValue<Integer> OXYGEN_TANK_CAPACITY;
     private static final ForgeConfigSpec.ConfigValue<Integer> VENT_CONSUMPTION;
 
-    private static final ForgeConfigSpec.BooleanValue VENT_BUOYANCY;
-
     static final ForgeConfigSpec SPEC;
 
     //we instantiate all config in the class constructor here so that the builder can be released from memory after creating the config spec.
@@ -40,10 +38,6 @@ public class BOServerConfig {
                 .comment("How many blocks vent can fill with 1 oxygen unit")
                 .define("ventConsumption", 20);
 
-        VENT_BUOYANCY = builder
-                .comment("Allow oxygen vents to grant ships buoyancy.")
-                .define("ventBuoyancy", true);
-
         SPEC = builder.build();
     }
 
@@ -54,7 +48,6 @@ public class BOServerConfig {
 
     private static int oxygenTankCapacity;
     private static int ventConsumption;
-    private static boolean ventBuoyancy;
 
     //we load all the config values into more friendly versions here, and can process custom syntax issues.
     public static void loadConfig() {
@@ -64,8 +57,6 @@ public class BOServerConfig {
 
         oxygenTankCapacity = OXYGEN_TANK_CAPACITY.get();
         ventConsumption = VENT_CONSUMPTION.get();
-
-        ventBuoyancy = VENT_BUOYANCY.get();
     }
 
     public static int getOxygenTankCapacity() {
@@ -74,9 +65,5 @@ public class BOServerConfig {
 
     public static int getVentConsumption() {
         return ventConsumption;
-    }
-
-    public static boolean getVentBuoyancy() {
-        return ventBuoyancy;
     }
 }
