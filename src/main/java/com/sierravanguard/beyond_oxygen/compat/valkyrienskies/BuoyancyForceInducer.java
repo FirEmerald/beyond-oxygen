@@ -1,4 +1,5 @@
 package com.sierravanguard.beyond_oxygen.compat.valkyrienskies;
+import com.sierravanguard.beyond_oxygen.BOServerConfig;
 import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.core.api.ships.LoadedServerShip;
 import org.valkyrienskies.core.api.ships.PhysShip;
@@ -14,7 +15,7 @@ public final class BuoyancyForceInducer implements ShipPhysicsListener {
     }
     @Override
     public void physTick(@NotNull PhysShip physShip, @NotNull PhysLevel physLevel) {
-        if (data.totalVolume <= 0) {
+        if (data.totalVolume <= 0 || !BOServerConfig.getVentBuoyancy()) {
             physShip.setBuoyantFactor(0);
             return;
         }

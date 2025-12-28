@@ -62,7 +62,7 @@ public class VSCompat {
             long shipId = entry.getKey();
             double totalVolume = entry.getValue();
 
-            Ship ship = shipData.getById(entry.getKey());
+            Ship ship = shipData.getById(shipId);
             if (ship instanceof LoadedServerShip serverShip) {
                 //BeyondOxygen.LOGGER.debug("Applying buoyant force to ship {}; Volume: {}", shipId, totalVolume); removed due to log spam
                 BuoyancyForceInducer.tickOnShip(serverShip, totalVolume);
