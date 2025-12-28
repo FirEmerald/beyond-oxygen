@@ -10,10 +10,11 @@ import net.minecraftforge.fml.ModLoadingContext;
 import java.util.function.BiConsumer;
 
 public enum CompatLoader {
-    VALKYRIEN_SKIES("valkyrienskies", "Valkyrien Skies", VSCompat::init),
-    COLD_SWEAT("cold_sweat", "Cold Sweat", ColdSweatCompat::init),
-    AD_ASTRA("ad_astra", "Ad Astra", AdAstraCompat::init),
-    CURIOS("curios", "Curios", CuriosCompat::init);
+    //DO NOT USE METHOD REFERENCES! we use lambdas so that the compat classes will only get loaded when the init lambda is called.
+    VALKYRIEN_SKIES("valkyrienskies", "Valkyrien Skies", (context, modEventBus) -> VSCompat.init()),
+    COLD_SWEAT("cold_sweat", "Cold Sweat", (context, modEventBus) -> ColdSweatCompat.init()),
+    AD_ASTRA("ad_astra", "Ad Astra", (context, modEventBus) -> AdAstraCompat.init()),
+    CURIOS("curios", "Curios", (context, modEventBus) -> CuriosCompat.init(context, modEventBus));
 
     public static void init(ModLoadingContext context, IEventBus modEventBus) {
         for (CompatLoader module : values()) module.initModule(context, modEventBus);
@@ -27,14 +28,6 @@ public enum CompatLoader {
         this.modId = modId;
         this.name = name;
         this.init = init;
-    }
-
-    CompatLoader(String modId, String name, Runnable init) {
-        this(modId, name, (context, modEventBus) -> init.run());
-    }
-
-    CompatLoader(String modId, String name) {
-        this(modId, name, (context, modEventBus) -> {});
     }
 
     private void initModule(ModLoadingContext context, IEventBus modEventBus) {

@@ -35,7 +35,7 @@
                     .define("oxygenConsumption", 10);
             DEFAULT_DENSITY = builder
                     .comment("The approximate density of a ships to use in buoyancy calculations. Set to 0 to disable buoyancy.")
-                    .defineInRange("shipDensity", 100d, 0, Double.MAX_VALUE);
+                    .defineInRange("shipDensity", 1000d, 0, Double.MAX_VALUE);
 
             BUBBLE_MAX_RADIUS = builder
                     .comment("Maximum radius of bubble generators")
