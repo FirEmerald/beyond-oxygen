@@ -1,6 +1,7 @@
 package com.sierravanguard.beyond_oxygen;
 
 import com.sierravanguard.beyond_oxygen.capabilities.HelmetState;
+import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import com.sierravanguard.beyond_oxygen.extensions.ILivingEntityExtension;
 import com.sierravanguard.beyond_oxygen.items.armor.IOpenableSpacesuitHelmetItem;
 import com.sierravanguard.beyond_oxygen.registry.BODamageSources;
@@ -12,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -32,6 +35,9 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Collections;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = BeyondOxygen.MODID)
 public class ModEvents {
@@ -162,5 +168,14 @@ public class ModEvents {
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
         ((ILivingEntityExtension) event.getEntity()).beyond_oxygen$tick();
+    }
+
+    @SubscribeEvent
+    public static void onEntityRemoved(EntityLeaveLevelEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof IEntityExtension extension) {
+            extension.beyond_oxygen$getAreasIn().forEach(area -> area.removeEntity(entity, List.of()));
+            extension.beyond_oxygen$getAreasIn().clear();
+        }
     }
 }
