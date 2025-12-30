@@ -1,14 +1,18 @@
 package com.sierravanguard.beyond_oxygen.network;
 
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
+import com.sierravanguard.beyond_oxygen.network.toclient.*;
+import com.sierravanguard.beyond_oxygen.network.toserver.BubbleRadiusPacket;
+import com.sierravanguard.beyond_oxygen.network.toserver.SetHelmetOpenPacket;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
+
+import java.util.function.Function;
 
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "3";
@@ -25,50 +29,19 @@ public class NetworkHandler {
     }
 
     public static void register() {
-        CHANNEL.registerMessage(nextID(), SetHelmetOpenPacket.class,
-                SetHelmetOpenPacket::encode,
-                SetHelmetOpenPacket::decode,
-                SetHelmetOpenPacket::handle);
+        register(SetHelmetOpenPacket.class, SetHelmetOpenPacket::new);
+        register(SyncHelmetStatePacket.class, SyncHelmetStatePacket::new);
+        register(SyncEntityHelmetStatePacket.class, SyncEntityHelmetStatePacket::new);
+        register(SyncSealedAreaStatusPacket.class, SyncSealedAreaStatusPacket::new);
+        register(SyncEntitySealedAreaStatusPacket.class, SyncEntitySealedAreaStatusPacket::new);
+        register(BubbleRadiusPacket.class, BubbleRadiusPacket::new);
+        register(VentInfoMessage.class, VentInfoMessage::new);
+        register(SyncHermeticBlocksS2CPacket.class, SyncHermeticBlocksS2CPacket::new);
+        register(InvalidateHermeticAreasPacket.class, InvalidateHermeticAreasPacket::new);
+    }
 
-        CHANNEL.registerMessage(nextID(), SyncHelmetStatePacket.class,
-                SyncHelmetStatePacket::encode,
-                SyncHelmetStatePacket::decode,
-                SyncHelmetStatePacket::handle);
-
-        CHANNEL.registerMessage(nextID(), SyncEntityHelmetStatePacket.class,
-                SyncEntityHelmetStatePacket::encode,
-                SyncEntityHelmetStatePacket::decode,
-                SyncEntityHelmetStatePacket::handle);
-
-        CHANNEL.registerMessage(nextID(), SyncSealedAreaStatusPacket.class,
-                SyncSealedAreaStatusPacket::encode,
-                SyncSealedAreaStatusPacket::decode,
-                SyncSealedAreaStatusPacket::handle);
-
-        CHANNEL.registerMessage(nextID(), SyncEntitySealedAreaStatusPacket.class,
-                SyncEntitySealedAreaStatusPacket::encode,
-                SyncEntitySealedAreaStatusPacket::decode,
-                SyncEntitySealedAreaStatusPacket::handle);
-
-        CHANNEL.registerMessage(nextID(), BubbleRadiusPacket.class,
-                BubbleRadiusPacket::encode,
-                BubbleRadiusPacket::decode,
-                BubbleRadiusPacket::handle);
-
-        CHANNEL.registerMessage(nextID(), VentInfoMessage.class,
-                VentInfoMessage::encode,
-                VentInfoMessage::decode,
-                VentInfoMessage::handle);
-
-        CHANNEL.registerMessage(nextID(), SyncHermeticBlocksS2CPacket.class,
-                SyncHermeticBlocksS2CPacket::encode,
-                SyncHermeticBlocksS2CPacket::decode,
-                SyncHermeticBlocksS2CPacket::handle);
-
-        CHANNEL.registerMessage(nextID(), InvalidateHermeticAreasPacket.class,
-                InvalidateHermeticAreasPacket::encode,
-                InvalidateHermeticAreasPacket::decode,
-                InvalidateHermeticAreasPacket::handle);
+    private static <T extends AbstractPacket> void register(Class<T> clazz, Function<FriendlyByteBuf, T> fromNetwork) {
+        CHANNEL.registerMessage(nextID(), clazz, AbstractPacket::write, fromNetwork, AbstractPacket::handle);
     }
 
     public static void sendSetHelmetOpenPacket(boolean open) {

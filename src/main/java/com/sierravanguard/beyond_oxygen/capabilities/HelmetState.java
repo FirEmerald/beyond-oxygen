@@ -2,8 +2,8 @@ package com.sierravanguard.beyond_oxygen.capabilities;
 
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
-import com.sierravanguard.beyond_oxygen.network.SyncEntityHelmetStatePacket;
-import com.sierravanguard.beyond_oxygen.network.SyncHelmetStatePacket;
+import com.sierravanguard.beyond_oxygen.network.toclient.SyncEntityHelmetStatePacket;
+import com.sierravanguard.beyond_oxygen.network.toclient.SyncHelmetStatePacket;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

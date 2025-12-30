@@ -3,18 +3,14 @@ package com.sierravanguard.beyond_oxygen;
 import com.sierravanguard.beyond_oxygen.capabilities.HelmetState;
 import com.sierravanguard.beyond_oxygen.extensions.IEntityExtension;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
-import com.sierravanguard.beyond_oxygen.network.SyncEntityHelmetStatePacket;
-import com.sierravanguard.beyond_oxygen.network.SyncHelmetStatePacket;
-import com.sierravanguard.beyond_oxygen.utils.CryoBedManager;
+import com.sierravanguard.beyond_oxygen.network.toclient.SyncEntityHelmetStatePacket;
+import com.sierravanguard.beyond_oxygen.network.toclient.SyncHelmetStatePacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = BeyondOxygen.MODID)
 public class PlayerEvents {

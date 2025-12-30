@@ -1,4 +1,4 @@
-package com.sierravanguard.beyond_oxygen.network;
+package com.sierravanguard.beyond_oxygen.network.toserver;
 
 import com.sierravanguard.beyond_oxygen.BOConfig;
 import com.sierravanguard.beyond_oxygen.blocks.entity.BubbleGeneratorBlockEntity;
@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class BubbleRadiusPacket {
+public class BubbleRadiusPacket extends ToServerPacket {
     private final BlockPos pos;
     private final boolean increase;
 
@@ -18,21 +18,24 @@ public class BubbleRadiusPacket {
         this.increase = increase;
     }
 
-    public static void encode(BubbleRadiusPacket msg, FriendlyByteBuf buf) {
-        buf.writeBlockPos(msg.pos);
-        buf.writeBoolean(msg.increase);
+    public BubbleRadiusPacket(FriendlyByteBuf buffer) {
+        this.pos = buffer.readBlockPos();
+        this.increase = buffer.readBoolean();
     }
 
-    public static BubbleRadiusPacket decode(FriendlyByteBuf buf) {
-        return new BubbleRadiusPacket(buf.readBlockPos(), buf.readBoolean());
+    @Override
+    public void write(FriendlyByteBuf buffer) {
+        buffer.writeBlockPos(pos);
+        buffer.writeBoolean(increase);
     }
 
-    public static void handle(BubbleRadiusPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player != null && player.level().getBlockEntity(msg.pos) instanceof BubbleGeneratorBlockEntity be) {
+    @Override
+    public void handle(NetworkEvent.Context context) {
+        context.enqueueWork(() -> {
+            ServerPlayer player = context.getSender();
+            if (player != null && player.level().getBlockEntity(pos) instanceof BubbleGeneratorBlockEntity be) {
                 float step = 0.5f;
-                float newRadius = be.controlledMaxRadius + (msg.increase ? step : -step);
+                float newRadius = be.controlledMaxRadius + (increase ? step : -step);
                 newRadius = clamp(newRadius, 0.5f, BOConfig.getBubbleMaxRadius());
 
                 be.controlledMaxRadius = newRadius;
@@ -41,8 +44,8 @@ public class BubbleRadiusPacket {
                 be.getLevel().sendBlockUpdated(be.getBlockPos(), be.getBlockState(), be.getBlockState(), 3);
             }
         });
-        ctx.get().setPacketHandled(true);
     }
+
     private static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));
     }

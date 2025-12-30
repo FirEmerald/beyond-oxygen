@@ -2,7 +2,7 @@ package com.sierravanguard.beyond_oxygen.blocks;
 
 import com.sierravanguard.beyond_oxygen.blocks.entity.VentBlockEntity;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
-import com.sierravanguard.beyond_oxygen.network.VentInfoMessage;
+import com.sierravanguard.beyond_oxygen.network.toclient.VentInfoMessage;
 import com.sierravanguard.beyond_oxygen.registry.BOBlockEntities;
 import com.sierravanguard.beyond_oxygen.registry.BOItems;
 import net.minecraft.core.BlockPos;

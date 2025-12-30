@@ -1,8 +1,6 @@
 package com.sierravanguard.beyond_oxygen.utils;
 
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
-import com.sierravanguard.beyond_oxygen.network.InvalidateHermeticAreasPacket;
-import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

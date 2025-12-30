@@ -1,6 +1,6 @@
 package com.sierravanguard.beyond_oxygen.client.menu;
 
-import com.sierravanguard.beyond_oxygen.network.BubbleRadiusPacket;
+import com.sierravanguard.beyond_oxygen.network.toserver.BubbleRadiusPacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
