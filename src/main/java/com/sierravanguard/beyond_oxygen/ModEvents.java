@@ -174,7 +174,7 @@ public class ModEvents {
     public static void onEntityRemoved(EntityLeaveLevelEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof IEntityExtension extension) {
-            extension.beyond_oxygen$getAreasIn().forEach(area -> area.removeEntity(entity, List.of()));
+            extension.beyond_oxygen$getAreasIn().forEach(area -> area.removeEntity(entity, null));
             extension.beyond_oxygen$getAreasIn().clear();
         }
     }

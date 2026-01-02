@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
  
@@ -424,9 +425,9 @@ public class HermeticArea {
         entityAreas.add(this);
     }
 
-    public void removeEntity(Entity entity, Collection<HermeticArea> entityAreas) {
+    public void removeEntity(Entity entity, @Nullable Collection<HermeticArea> entityAreas) {
         this.containedEntities.remove(entity);
-        entityAreas.remove(this);
+        if (entityAreas != null) entityAreas.remove(this);
     }
 
     public boolean contains(Entity entity) {
