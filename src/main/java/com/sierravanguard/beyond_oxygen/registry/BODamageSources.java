@@ -10,10 +10,10 @@ import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.LivingEntity;
 
 public class BODamageSources {
-    private static final ResourceKey<DamageType> VACUUM_KEY = key("vacuum");
-    private static final ResourceKey<DamageType> FREEZE_KEY = key("freeze");
-    private static final ResourceKey<DamageType> BURN_KEY = key("burn");
-    private static final ResourceKey<DamageType> HURT_KEY = key("vacuum");
+    public static final ResourceKey<DamageType> VACUUM_KEY = key("vacuum");
+    public static final ResourceKey<DamageType> FREEZE_KEY = key("freeze");
+    public static final ResourceKey<DamageType> BURN_KEY = key("burn");
+    public static final ResourceKey<DamageType> HURT_KEY = key("hurt");
 
     private static ResourceKey<DamageType> key(String id) {
         return ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(BeyondOxygen.MODID, id));

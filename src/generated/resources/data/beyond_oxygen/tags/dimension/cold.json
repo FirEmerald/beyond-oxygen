@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:the_end",
+    {
+      "id": "cosmos:plutowastelands",
+      "required": false
+    },
+    {
+      "id": "cosmos:glacio_lands",
+      "required": false
+    }
+  ]
+}

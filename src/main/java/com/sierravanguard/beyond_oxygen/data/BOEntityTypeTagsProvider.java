@@ -3,6 +3,7 @@ package com.sierravanguard.beyond_oxygen.data;
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.tags.BOEntityTypeTags;
 import earth.terrarium.adastra.common.tags.ModEntityTypeTags;
+import net.lointain.cosmos.init.CosmosModEntities;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -31,6 +32,13 @@ public class BOEntityTypeTagsProvider extends TagsProvider<EntityType<?>> {
                 .add(EntityType.IRON_GOLEM.builtInRegistryHolder().key())
                 .add(EntityType.SNOW_GOLEM.builtInRegistryHolder().key())
                 .add(EntityType.WITHER.builtInRegistryHolder().key())
+                .addOptional(CosmosModEntities.ENTITYCORRODEDSULPHERTNT.getId())
+                .addOptional(CosmosModEntities.ENTITY_ASHED_TNT.getId())
+                .addOptional(CosmosModEntities.SULPHURIC_SHARDS.getId())
+                .addOptional(CosmosModEntities.ROCKET_SEAT.getId())
+                .addOptional(CosmosModEntities.STEEL_ROVER.getId())
+                .addOptional(CosmosModEntities.TITANIUM_ROVER.getId())
+                .addOptional(CosmosModEntities.NICKEL_ROVER.getId())
                 .addOptionalTag(ModEntityTypeTags.LIVES_WITHOUT_OXYGEN);
         this.tag(BOEntityTypeTags.SURVIVES_COLD)
                 .addTag(EntityTypeTags.SKELETONS)
@@ -41,6 +49,13 @@ public class BOEntityTypeTagsProvider extends TagsProvider<EntityType<?>> {
                 .add(EntityType.SHULKER.builtInRegistryHolder().key())
                 .add(EntityType.IRON_GOLEM.builtInRegistryHolder().key())
                 .addTag(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                .addOptional(CosmosModEntities.ENTITYCORRODEDSULPHERTNT.getId())
+                .addOptional(CosmosModEntities.ENTITY_ASHED_TNT.getId())
+                .addOptional(CosmosModEntities.SULPHURIC_SHARDS.getId())
+                .addOptional(CosmosModEntities.ROCKET_SEAT.getId())
+                .addOptional(CosmosModEntities.STEEL_ROVER.getId())
+                .addOptional(CosmosModEntities.TITANIUM_ROVER.getId())
+                .addOptional(CosmosModEntities.NICKEL_ROVER.getId())
                 .addOptionalTag(ModEntityTypeTags.CAN_SURVIVE_EXTREME_COLD);
         this.tag(BOEntityTypeTags.SURVIVES_HOT)
                 .addTag(EntityTypeTags.SKELETONS)
@@ -55,6 +70,13 @@ public class BOEntityTypeTagsProvider extends TagsProvider<EntityType<?>> {
                 .add(EntityType.PIGLIN_BRUTE.builtInRegistryHolder().key())
                 .add(EntityType.ZOMBIFIED_PIGLIN.builtInRegistryHolder().key())
                 .add(EntityType.ZOGLIN.builtInRegistryHolder().key())
+                .addOptional(CosmosModEntities.ENTITYCORRODEDSULPHERTNT.getId())
+                .addOptional(CosmosModEntities.ENTITY_ASHED_TNT.getId())
+                .addOptional(CosmosModEntities.SULPHURIC_SHARDS.getId())
+                .addOptional(CosmosModEntities.ROCKET_SEAT.getId())
+                .addOptional(CosmosModEntities.STEEL_ROVER.getId())
+                .addOptional(CosmosModEntities.TITANIUM_ROVER.getId())
+                .addOptional(CosmosModEntities.NICKEL_ROVER.getId())
                 .addOptionalTag(ModEntityTypeTags.CAN_SURVIVE_EXTREME_HEAT);
 
     }

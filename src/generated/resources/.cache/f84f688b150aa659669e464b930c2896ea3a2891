@@ -1,0 +1,4 @@
+// 1.20.1	2026-01-04T13:58:26.2685	Tags for minecraft:dimension mod id beyond_oxygen
+883ea4bc24e02b385d55c479d635d7de2c4bb354 data/beyond_oxygen/tags/dimension/cold.json
+4fd6e667d21a86d9ce7d4f62f2afa9c090888d43 data/beyond_oxygen/tags/dimension/hot.json
+6f01d50f432c2fb8d86e8925428cc238d89a7ca5 data/beyond_oxygen/tags/dimension/unbreathable.json

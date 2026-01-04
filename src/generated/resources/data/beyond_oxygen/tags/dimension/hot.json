@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:the_nether",
+    {
+      "id": "cosmos:mercury_wasteland",
+      "required": false
+    },
+    {
+      "id": "cosmos:venuslands",
+      "required": false
+    }
+  ]
+}

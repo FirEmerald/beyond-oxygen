@@ -10,6 +10,34 @@
     "minecraft:snow_golem",
     "minecraft:wither",
     {
+      "id": "cosmos:entitycorrodedsulphertnt",
+      "required": false
+    },
+    {
+      "id": "cosmos:entity_ashed_tnt",
+      "required": false
+    },
+    {
+      "id": "cosmos:sulphuric_shards",
+      "required": false
+    },
+    {
+      "id": "cosmos:rocket_seat",
+      "required": false
+    },
+    {
+      "id": "cosmos:steel_rover",
+      "required": false
+    },
+    {
+      "id": "cosmos:titanium_rover",
+      "required": false
+    },
+    {
+      "id": "cosmos:nickel_rover",
+      "required": false
+    },
+    {
       "id": "#ad_astra:lives_without_oxygen",
       "required": false
     }

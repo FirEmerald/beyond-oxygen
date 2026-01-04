@@ -13,6 +13,34 @@
     "minecraft:zombified_piglin",
     "minecraft:zoglin",
     {
+      "id": "cosmos:entitycorrodedsulphertnt",
+      "required": false
+    },
+    {
+      "id": "cosmos:entity_ashed_tnt",
+      "required": false
+    },
+    {
+      "id": "cosmos:sulphuric_shards",
+      "required": false
+    },
+    {
+      "id": "cosmos:rocket_seat",
+      "required": false
+    },
+    {
+      "id": "cosmos:steel_rover",
+      "required": false
+    },
+    {
+      "id": "cosmos:titanium_rover",
+      "required": false
+    },
+    {
+      "id": "cosmos:nickel_rover",
+      "required": false
+    },
+    {
       "id": "#ad_astra:can_survive_extreme_heat",
       "required": false
     }
