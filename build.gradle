@@ -209,17 +209,17 @@ dependencies {
     implementation         ("org.valkyrienskies.core:util:${vs_core_version}")
     implementation fg.deobf("org.valkyrienskies:valkyrienskies-120-forge:${vs2_version}")
 
-    implementation fg.deobf("curse.maven:kotlin-for-forge-351264:5402061")
-    //implementation fg.deobf("curse.maven:eureka-ships-654384:5321630")
-    implementation fg.deobf("curse.maven:mekanism-268560:6552911")
+    implementation fg.deobf("maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}")
+    implementation fg.deobf("maven.modrinth:eureka:${eureka_version}")
+    implementation fg.deobf("maven.modrinth:mekanism:${mekanism_version}")
 
-    implementation fg.deobf("curse.maven:ad-astra-635042:6262032")
-    implementation fg.deobf("curse.maven:botarium-704113:5486070")
-    implementation fg.deobf("curse.maven:resourceful-config-714059:6231176")
-    implementation fg.deobf("curse.maven:resourceful-lib-570073:5659871")
+    implementation fg.deobf("maven.modrinth:ad-astra:${ad_astra_version}")
+    implementation fg.deobf("maven.modrinth:botarium:${botarium_version}")
+    implementation fg.deobf("maven.modrinth:resourceful-config:${resourceful_config_version}")
+    implementation fg.deobf("maven.modrinth:resourceful-lib:${resourceful_lib_version}")
 
 
-    implementation fg.deobf("curse.maven:jei-238222:7037120")
+    implementation fg.deobf("maven.modrinth:jei:${jei_version}")
 
     implementation fg.deobf("maven.modrinth:cosmic-horizons-cosmos:0.0.7.3")
 
