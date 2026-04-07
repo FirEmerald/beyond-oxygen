@@ -5,6 +5,7 @@ import com.sierravanguard.beyond_oxygen.compat.CompatLoader;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import com.sierravanguard.beyond_oxygen.registry.*;
 import com.mojang.logging.LogUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,13 +22,11 @@ import org.slf4j.Logger;
 @Mod(BeyondOxygen.MODID)
 @Mod.EventBusSubscriber(modid = "beyond_oxygen", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BeyondOxygen {
-
     public static final String MODID = "beyond_oxygen";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public BeyondOxygen() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModLoadingContext context = ModLoadingContext.get();
+    public BeyondOxygen(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
         context.registerConfig(ModConfig.Type.COMMON, BOConfig.SPEC);
         context.registerConfig(ModConfig.Type.SERVER, BOServerConfig.SPEC);
         BOBlocks.BLOCKS.register(modEventBus);

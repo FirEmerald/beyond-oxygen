@@ -6,6 +6,7 @@ import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.capabilities.HelmetState;
 import com.sierravanguard.beyond_oxygen.client.model.OpenableHelmetModel;
 import com.sierravanguard.beyond_oxygen.items.armor.OpenableSpacesuitHelmetItem;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -21,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class SpacesuitHelmetLayer<T extends LivingEntity> extends RenderLayer<T, HumanoidModel<T>> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(BeyondOxygen.MODID, "armor"), "openable_helmet");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocations.beyondOxygen("armor"), "openable_helmet");
     public final OpenableHelmetModel<T> model;
 
     public SpacesuitHelmetLayer(RenderLayerParent<T, HumanoidModel<T>> parent, EntityModelSet modelSet) {

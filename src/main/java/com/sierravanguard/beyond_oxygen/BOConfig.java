@@ -1,6 +1,7 @@
     package com.sierravanguard.beyond_oxygen;
 
     import com.sierravanguard.beyond_oxygen.registry.BODimensions;
+    import net.minecraft.ResourceLocationException;
     import net.minecraft.resources.ResourceLocation;
     import net.minecraftforge.common.ForgeConfigSpec;
     import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,6 +10,7 @@
 
     import java.util.ArrayList;
     import java.util.List;
+    import java.util.Objects;
 
     @Mod.EventBusSubscriber(modid = BeyondOxygen.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public class BOConfig {
@@ -141,9 +143,14 @@
         }
 
         public static List<ResourceLocation> toRlList(List<? extends String> list) {
-            List<ResourceLocation> rlList = new ArrayList<>(list.size());
-            list.forEach(str -> rlList.add(new ResourceLocation(str)));
-            return rlList;
+            return list.stream().map(rl -> {
+                try {
+                    return ResourceLocation.tryParse(rl);
+                } catch (ResourceLocationException e) {
+                    BeyondOxygen.LOGGER.warn("Invalid resource location in config", e);
+                    return null;
+                }
+            }).filter(Objects::nonNull).toList();
         }
 
         public static boolean getBabyMode() {

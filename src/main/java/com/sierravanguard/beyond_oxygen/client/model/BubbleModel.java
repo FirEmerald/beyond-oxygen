@@ -1,6 +1,7 @@
 package com.sierravanguard.beyond_oxygen.client.model;
 
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -24,7 +25,7 @@ public class BubbleModel {
 
     private static void reloadResources(ResourceManager resourceManager) {
         try {
-            bubbleModel = ObjModel.load(resourceManager, new ResourceLocation(BeyondOxygen.MODID, "models/entity/bubble.obj"));
+            bubbleModel = ObjModel.load(resourceManager, ResourceLocations.beyondOxygen("models/entity/bubble.obj"));
         } catch (Throwable t) {
             bubbleModel = null;
             BeyondOxygen.LOGGER.error("Failed to load oxygen bubble model!", t);

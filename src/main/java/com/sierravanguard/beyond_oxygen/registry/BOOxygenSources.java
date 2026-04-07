@@ -4,6 +4,7 @@ import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.items.armor.OxygenStorageArmorItem;
 import com.sierravanguard.beyond_oxygen.tags.BOItemTags;
 import com.sierravanguard.beyond_oxygen.utils.OxygenSource;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +29,7 @@ public class BOOxygenSources {
     public static final int DEFAULT_PRIORITY_PLAYER_INVENTORY = 2000;
     public static final int DEFAULT_PRIORITY_HELD_ITEMS = 3000;
 
-    public static final ResourceKey<Registry<OxygenSource<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(BeyondOxygen.MODID, "oxygen_sources"));
+    public static final ResourceKey<Registry<OxygenSource<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocations.beyondOxygen("oxygen_sources"));
     private static DeferredRegister<OxygenSource<?>> registry = DeferredRegister.create(REGISTRY_KEY, BeyondOxygen.MODID);
     public static final Supplier<IForgeRegistry<OxygenSource<?>>> REGISTRY = registry.makeRegistry(() -> RegistryBuilder.of(REGISTRY_KEY.location()));
 

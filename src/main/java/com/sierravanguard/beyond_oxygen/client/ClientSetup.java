@@ -1,18 +1,12 @@
 package com.sierravanguard.beyond_oxygen.client;
 
-import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.client.model.OpenableHelmetModel;
 import com.sierravanguard.beyond_oxygen.client.renderer.RenderStateShardReflection;
 import com.sierravanguard.beyond_oxygen.client.renderer.armor.SpacesuitHelmetLayer;
 import com.sierravanguard.beyond_oxygen.registry.BOBlockEntities;
-import com.sierravanguard.beyond_oxygen.registry.BOBlocks;
 import com.sierravanguard.beyond_oxygen.registry.BOMenus;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -33,14 +27,12 @@ public class ClientSetup {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            EntityModelSet modelSet = Minecraft.getInstance().getEntityModels();
             BlockEntityRenderers.register(
                     BOBlockEntities.BUBBLE_GENERATOR.get(),
                     BubbleGeneratorBlockEntityRenderer::new
             );
         });
         event.enqueueWork(RenderStateShardReflection::initializeSafe);
-        ItemBlockRenderTypes.setRenderLayer(BOBlocks.CRYO_BED.get(), RenderType.translucent());
         MenuScreens.register(BOMenus.BUBBLE_GENERATOR.get(), BubbleGeneratorScreen::new);
     }
 
@@ -49,6 +41,7 @@ public class ClientSetup {
         event.registerLayerDefinition(SpacesuitHelmetLayer.LAYER_LOCATION, OpenableHelmetModel::createLayerDefinition);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @SubscribeEvent
     public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
         ForgeRegistries.ENTITY_TYPES.forEach(entityType -> {

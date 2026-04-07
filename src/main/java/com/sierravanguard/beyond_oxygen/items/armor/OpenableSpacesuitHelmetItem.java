@@ -30,6 +30,6 @@ public class OpenableSpacesuitHelmetItem extends SpacesuitArmorItem implements I
             domain = material.substring(0, domainSepIndex);
             material = material.substring(domainSepIndex + 1);
         } else domain = "minecraft";
-        return new ResourceLocation(domain, "textures/models/armor/" + material + "_helmet_closed.png");
+        return ResourceLocation.fromNamespaceAndPath(domain, "textures/models/armor/" + material + "_helmet_closed.png");
     }
 }

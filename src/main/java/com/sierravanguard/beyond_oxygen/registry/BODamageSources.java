@@ -1,6 +1,7 @@
 package com.sierravanguard.beyond_oxygen.registry;
 
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -16,7 +17,7 @@ public class BODamageSources {
     public static final ResourceKey<DamageType> HURT_KEY = key("hurt");
 
     private static ResourceKey<DamageType> key(String id) {
-        return ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(BeyondOxygen.MODID, id));
+        return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocations.beyondOxygen(id));
     }
 
     private static DamageSource vacuum, freeze, burn, hurt;

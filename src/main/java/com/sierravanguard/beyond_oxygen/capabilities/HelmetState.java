@@ -4,6 +4,7 @@ import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 import com.sierravanguard.beyond_oxygen.network.toclient.SyncEntityHelmetStatePacket;
 import com.sierravanguard.beyond_oxygen.network.toclient.SyncHelmetStatePacket;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class HelmetState implements ICapabilitySerializable<CompoundTag> {
-    public static final ResourceLocation ID = new ResourceLocation(BeyondOxygen.MODID, "helmet_state");
+    public static final ResourceLocation ID = ResourceLocations.beyondOxygen("helmet_state");
     private static final Capability<HelmetState> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static LazyOptional<HelmetState> get(LivingEntity entity) {

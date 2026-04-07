@@ -4,6 +4,7 @@ import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.network.toclient.*;
 import com.sierravanguard.beyond_oxygen.network.toserver.BubbleRadiusPacket;
 import com.sierravanguard.beyond_oxygen.network.toserver.SetHelmetOpenPacket;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "3";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(BeyondOxygen.MODID, "network"),
+            ResourceLocations.beyondOxygen("network"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals

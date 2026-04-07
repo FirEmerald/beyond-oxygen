@@ -5,6 +5,7 @@
 		"0": "beyond_oxygen:block/cryo_bed_top",
 		"particle": "beyond_oxygen:block/cryo_bed_top"
 	},
+	"render_type": "minecraft:translucent",
 	"elements": [
 		{
 			"from": [3, 7, 2],

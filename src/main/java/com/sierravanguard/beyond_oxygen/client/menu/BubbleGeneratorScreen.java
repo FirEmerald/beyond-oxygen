@@ -1,6 +1,8 @@
 package com.sierravanguard.beyond_oxygen.client.menu;
 
+import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.network.toserver.BubbleRadiusPacket;
+import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -14,7 +16,7 @@ import com.mojang.math.Axis;
 import com.sierravanguard.beyond_oxygen.network.NetworkHandler;
 
 public class BubbleGeneratorScreen extends AbstractContainerScreen<BubbleGeneratorMenu> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("beyond_oxygen", "textures/gui/bubble_generator.png");
+    private static final ResourceLocation TEXTURE = ResourceLocations.beyondOxygen("textures/gui/bubble_generator.png");
     private TextureButton plusButton;
     private TextureButton minusButton;
     private static final int GUI_WIDTH = 176;
