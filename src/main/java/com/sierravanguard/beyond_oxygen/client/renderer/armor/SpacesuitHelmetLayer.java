@@ -2,7 +2,6 @@ package com.sierravanguard.beyond_oxygen.client.renderer.armor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.capabilities.HelmetState;
 import com.sierravanguard.beyond_oxygen.client.model.OpenableHelmetModel;
 import com.sierravanguard.beyond_oxygen.items.armor.OpenableSpacesuitHelmetItem;

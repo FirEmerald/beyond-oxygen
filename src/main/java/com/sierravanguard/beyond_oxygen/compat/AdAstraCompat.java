@@ -5,7 +5,6 @@ import com.sierravanguard.beyond_oxygen.registry.BOEffects;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.fml.ModList;
 
 public class AdAstraCompat {
     public static void init() {

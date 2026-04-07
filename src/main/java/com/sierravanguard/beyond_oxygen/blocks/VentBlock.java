@@ -55,9 +55,10 @@ public class VentBlock extends Block implements EntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BOBlockEntities.VENT_BLOCK_ENTITY.get(), (lvl, pos, bs, be) -> VentBlockEntity.tick(lvl, pos, bs, (VentBlockEntity) be));
+        return createTickerHelper(type, BOBlockEntities.VENT_BLOCK_ENTITY.get(), VentBlockEntity::tick);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T extends BlockEntity> BlockEntityTicker<T> createTickerHelper(
             BlockEntityType<T> givenType,
             BlockEntityType<?> expectedType,

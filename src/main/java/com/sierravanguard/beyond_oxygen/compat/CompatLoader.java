@@ -14,7 +14,7 @@ public enum CompatLoader {
     VALKYRIEN_SKIES("valkyrienskies", "Valkyrien Skies", (context, modEventBus) -> VSCompat.init()),
     COLD_SWEAT("cold_sweat", "Cold Sweat", (context, modEventBus) -> ColdSweatCompat.init()),
     AD_ASTRA("ad_astra", "Ad Astra", (context, modEventBus) -> AdAstraCompat.init()),
-    CURIOS("curios", "Curios", (context, modEventBus) -> CuriosCompat.init(context, modEventBus));
+    CURIOS("curios", "Curios", CuriosCompat::init);
 
     public static void init(ModLoadingContext context, IEventBus modEventBus) {
         for (CompatLoader module : values()) module.initModule(context, modEventBus);

@@ -1,21 +1,10 @@
 package com.sierravanguard.beyond_oxygen.items.armor;
 
-import com.sierravanguard.beyond_oxygen.capabilities.HelmetState;
-import com.sierravanguard.beyond_oxygen.client.model.OpenableHelmetModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.Model;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Consumer;
 
 public class OpenableSpacesuitHelmetItem extends SpacesuitArmorItem implements IOpenableSpacesuitHelmetItem {
     public OpenableSpacesuitHelmetItem(ArmorMaterial material, Type type, Item.Properties properties) {

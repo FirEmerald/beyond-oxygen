@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class BOFluids {
     private static Set<Fluid> oxygenFluids = Set.of();
 
+    @SuppressWarnings("deprecation")
     public static void populateFluids(RegistryAccess registryAccess) {
         oxygenFluids = registryAccess.lookupOrThrow(Registries.FLUID).get(BOFluidTags.OXYGEN).map(named -> named.stream().map(Holder::get).collect(Collectors.toSet())).orElse(Set.of());
         StringJoiner joiner = new StringJoiner(", ", "Accepted oxygen fluids: ", "");

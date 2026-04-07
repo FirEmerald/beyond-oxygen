@@ -1,6 +1,5 @@
 package com.sierravanguard.beyond_oxygen.tags;
 
-import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

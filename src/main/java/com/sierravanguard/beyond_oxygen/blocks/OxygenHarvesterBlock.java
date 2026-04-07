@@ -55,7 +55,7 @@ public class OxygenHarvesterBlock extends Block implements EntityBlock {
             return null;
         }
         return type == BOBlockEntities.OXYGEN_HARVESTER.get()
-                ? (lvl, pos1, st, be) -> OxygenHarvesterBlockEntity.tick(lvl, pos1, st, be)
+                ? OxygenHarvesterBlockEntity::tick
                 : null;
     }
 

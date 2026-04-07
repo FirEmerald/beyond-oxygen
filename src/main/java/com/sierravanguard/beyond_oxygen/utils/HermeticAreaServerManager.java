@@ -73,9 +73,8 @@ public class HermeticAreaServerManager {
         }
         toRemove.clear();
 
-        Iterator<HermeticArea> it = data.getAreas().values().iterator();
-        while (it.hasNext()) {
-            it.next().tickDormant();
+        for (HermeticArea area : data.getAreas().values()) {
+            area.tickDormant();
         }
     }
 

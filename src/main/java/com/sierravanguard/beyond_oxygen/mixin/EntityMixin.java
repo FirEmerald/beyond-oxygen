@@ -6,7 +6,6 @@ import com.sierravanguard.beyond_oxygen.utils.HermeticArea;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.tags.TagKey;
@@ -42,7 +41,7 @@ public abstract class EntityMixin implements IEntityExtension {
     @Unique
     private final Set<HermeticArea> beyond_oxygen$areas = new HashSet<>();
     @Unique
-    private int ticksSinceSync = 0;
+    private int beyondoxygen$ticksSinceSync = 0;
 
     @Unique
     private Entity beyond_oxygen$self() {
@@ -64,10 +63,10 @@ public abstract class EntityMixin implements IEntityExtension {
             toRemove.forEach(area -> area.removeEntity(self, beyond_oxygen$areas));
             neo$isInSealedArea = !beyond_oxygen$areas.isEmpty();
         }
-        if (wasInSealedArea != neo$isInSealedArea || ticksSinceSync >= 200) {
+        if (wasInSealedArea != neo$isInSealedArea || beyondoxygen$ticksSinceSync >= 200) {
             NetworkHandler.sendSealedAreaStatusToClients(self, neo$isInSealedArea);
-            ticksSinceSync = 0;
-        } else ticksSinceSync++;
+            beyondoxygen$ticksSinceSync = 0;
+        } else beyondoxygen$ticksSinceSync++;
     }
 
     @Override

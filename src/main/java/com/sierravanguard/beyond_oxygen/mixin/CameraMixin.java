@@ -23,8 +23,6 @@ public abstract class CameraMixin {
     @Unique private static final int GRACE_PERIOD = 5;
     @Shadow private Vec3 position;
 
-    @Unique private boolean neo$isInSealedArea = false;
-
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;

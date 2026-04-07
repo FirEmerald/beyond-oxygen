@@ -1,17 +1,14 @@
     package com.sierravanguard.beyond_oxygen.compat.curios;
 
     import com.sierravanguard.beyond_oxygen.BeyondOxygen;
-    import com.sierravanguard.beyond_oxygen.registry.BOOxygenSources;
     import com.sierravanguard.beyond_oxygen.tags.BOItemTags;
     import net.minecraft.world.entity.LivingEntity;
     import net.minecraft.world.item.ItemStack;
     import net.minecraftforge.common.ForgeConfigSpec;
-    import net.minecraftforge.common.util.LazyOptional;
     import net.minecraftforge.eventbus.api.SubscribeEvent;
     import net.minecraftforge.fml.common.Mod;
     import net.minecraftforge.fml.event.config.ModConfigEvent;
     import top.theillusivec4.curios.api.CuriosApi;
-    import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
     import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
     import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
@@ -35,7 +32,7 @@
                     .comment("Whether to treat the list of slots as a blacklist instead of a whitelist")
                     .define("isBlacklist", false);
             ALLOWED_SLOTS = builder
-                    .comment("What slots to allow (or disallow) the consumption of oxygen from. Keep in mind the items will need to be in the " + BOItemTags.BREATHABLES.location().toString() + " tag.")
+                    .comment("What slots to allow (or disallow) the consumption of oxygen from. Keep in mind the items will need to be in the " + BOItemTags.BREATHABLES.location() + " tag.")
                     .defineList("allowedSlots", List.of("back"), t -> t instanceof String);
             CURIOS_OXYGEN_PRIORITY = builder
                     .comment("Priority for consuming oxygen from curios. Use " + Integer.MIN_VALUE + " to disable.")

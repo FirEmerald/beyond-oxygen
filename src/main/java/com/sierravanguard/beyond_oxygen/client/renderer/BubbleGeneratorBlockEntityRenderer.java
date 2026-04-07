@@ -2,7 +2,6 @@ package com.sierravanguard.beyond_oxygen.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.blocks.entity.BubbleGeneratorBlockEntity;
 import com.sierravanguard.beyond_oxygen.client.model.BubbleModel;
 import com.sierravanguard.beyond_oxygen.client.model.ObjModel;
@@ -11,7 +10,6 @@ import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;

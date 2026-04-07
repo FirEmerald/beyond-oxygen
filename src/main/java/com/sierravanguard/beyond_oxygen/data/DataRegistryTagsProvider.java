@@ -75,7 +75,7 @@ public abstract class DataRegistryTagsProvider<T> implements DataProvider {
         return this.createContentsProvider().thenApply(provider -> {
             this.contentsDone.complete(null);
             return provider;
-        }).thenCombineAsync(this.parentProvider, (provider, tagLookup) -> new CombinedData<>(provider, tagLookup)).thenCompose((data) -> {
+        }).thenCombineAsync(this.parentProvider, CombinedData::new).thenCompose((data) -> {
             Predicate<ResourceLocation> elementPredicate = id -> true;
             Predicate<ResourceLocation> tagPredicate = id -> this.builders.containsKey(id) || data.parent.contains(TagKey.create(this.registryKey, id));
             return CompletableFuture.allOf(this.builders.entrySet().stream().map(entry -> {

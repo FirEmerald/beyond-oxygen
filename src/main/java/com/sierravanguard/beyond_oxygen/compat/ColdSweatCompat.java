@@ -3,7 +3,6 @@ package com.sierravanguard.beyond_oxygen.compat;
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.ModList;
 
 public class ColdSweatCompat {
     private static boolean initialized = false;
@@ -25,7 +24,7 @@ public class ColdSweatCompat {
             try {
                 Class<?> temperatureClass = Class.forName("com.momosoftworks.coldsweat.api.util.Temperature");
                 Class<?> traitClass = Class.forName("com.momosoftworks.coldsweat.api.util.Temperature$Trait");
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ignored) {
             }
         }
     }

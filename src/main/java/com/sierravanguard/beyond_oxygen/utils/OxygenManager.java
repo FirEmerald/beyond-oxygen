@@ -1,7 +1,6 @@
 package com.sierravanguard.beyond_oxygen.utils;
 
 import com.sierravanguard.beyond_oxygen.BOConfig;
-import com.sierravanguard.beyond_oxygen.BOServerConfig;
 import com.sierravanguard.beyond_oxygen.registry.BOEffects;
 import com.sierravanguard.beyond_oxygen.registry.BOFluids;
 import com.sierravanguard.beyond_oxygen.registry.BOOxygenSources;

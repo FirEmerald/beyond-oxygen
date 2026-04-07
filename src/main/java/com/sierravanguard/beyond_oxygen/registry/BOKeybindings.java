@@ -4,8 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.settings.KeyConflictContext;
 
-public final class BOKeybindings {
-    public static final BOKeybindings INSTANCE = new BOKeybindings();
+public class BOKeybindings {
     private static final String CATEGORY = "key.categories.beyond_oxygen";
     public static final KeyMapping TOGGLE_HELMET = new KeyMapping(
             "key.beyond_oxygen.toggle_helmet",
@@ -13,6 +12,5 @@ public final class BOKeybindings {
             InputConstants.getKey(InputConstants.KEY_H, -1),
             CATEGORY
     );
-    private BOKeybindings() {}
 }
 

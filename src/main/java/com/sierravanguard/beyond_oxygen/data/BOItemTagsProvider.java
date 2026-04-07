@@ -22,6 +22,7 @@ public class BOItemTagsProvider extends TagsProvider<Item> {
         super(pOutput, Registries.ITEM, lookupProvider, BeyondOxygen.MODID, existingFileHelper);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         this.tag(BOItemTags.SPACE_SUIT_HELMETS)

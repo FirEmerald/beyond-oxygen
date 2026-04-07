@@ -1,6 +1,5 @@
 package com.sierravanguard.beyond_oxygen.compat.valkyrienskies;
 
-import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.utils.CryoBedManager;
 import com.sierravanguard.beyond_oxygen.utils.HermeticArea;
 import net.minecraft.core.BlockPos;

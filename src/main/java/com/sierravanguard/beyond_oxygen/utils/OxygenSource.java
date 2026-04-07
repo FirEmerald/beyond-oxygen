@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiPredicate;
 import java.util.function.Function;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public abstract class OxygenSource<T> implements Comparable<OxygenSource<?>> {

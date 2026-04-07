@@ -1,12 +1,10 @@
 package com.sierravanguard.beyond_oxygen.network;
 
-import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.network.toclient.*;
 import com.sierravanguard.beyond_oxygen.network.toserver.BubbleRadiusPacket;
 import com.sierravanguard.beyond_oxygen.network.toserver.SetHelmetOpenPacket;
 import com.sierravanguard.beyond_oxygen.utils.ResourceLocations;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkRegistry;

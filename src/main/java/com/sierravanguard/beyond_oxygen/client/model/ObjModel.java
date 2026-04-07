@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjModel {
+public record ObjModel(Quad[] quads) {
     public static ObjModel load(BufferedReader reader) {
         Loader loader = new Loader();
         int row = 0;
@@ -29,12 +29,6 @@ public class ObjModel {
     public static ObjModel load(ResourceManager resourceManager, ResourceLocation path) throws IOException {
         Resource resource = resourceManager.getResourceOrThrow(path);
         return load(resource.openAsReader());
-    }
-
-    public final Quad[] quads;
-
-    public ObjModel(Quad[] quads) {
-        this.quads = quads;
     }
 
     public void visit(VertexVisitor operation, FloatUnaryOperator u, FloatUnaryOperator v) {
@@ -108,7 +102,8 @@ public class ObjModel {
 
         public void parseVertex(String string) {
             String[] items = string.split(" ");
-            if (items.length != 3) throw new IllegalArgumentException("Invalid obj file: vertex definition did not have 3 elements. Has " + items.length);
+            if (items.length != 3)
+                throw new IllegalArgumentException("Invalid obj file: vertex definition did not have 3 elements. Has " + items.length);
             positions.add(new Vector3f(
                     Float.parseFloat(items[0]),
                     Float.parseFloat(items[1]),
@@ -118,7 +113,8 @@ public class ObjModel {
 
         public void parseNormal(String string) {
             String[] items = string.split(" ");
-            if (items.length != 3) throw new IllegalArgumentException("Invalid obj file: normal definition did not have 3 elements. Has " + items.length);
+            if (items.length != 3)
+                throw new IllegalArgumentException("Invalid obj file: normal definition did not have 3 elements. Has " + items.length);
             normals.add(new Vector3f(
                     Float.parseFloat(items[0]),
                     Float.parseFloat(items[1]),
@@ -128,7 +124,8 @@ public class ObjModel {
 
         public void parseUV(String string) {
             String[] items = string.split(" ");
-            if (items.length != 2) throw new IllegalArgumentException("Invalid obj file: uv definition did not have 2 elements. Has " + items.length);
+            if (items.length != 2)
+                throw new IllegalArgumentException("Invalid obj file: uv definition did not have 2 elements. Has " + items.length);
             uvs.add(new Vector2f(
                     Float.parseFloat(items[0]),
                     1 - Float.parseFloat(items[1])
@@ -137,7 +134,8 @@ public class ObjModel {
 
         public void parseFace(String string) {
             String[] items = string.split(" ");
-            if (items.length != 4) throw new IllegalArgumentException("Invalid obj file: face definition did not have 4 elements. Has " + items.length);
+            if (items.length != 4)
+                throw new IllegalArgumentException("Invalid obj file: face definition did not have 4 elements. Has " + items.length);
             quads.add(new Quad(
                     parseVertexIndices(items[0]),
                     parseVertexIndices(items[1]),
@@ -148,7 +146,8 @@ public class ObjModel {
 
         public Vertex parseVertexIndices(String string) {
             String[] items = string.split("/");
-            if (items.length != 3) throw new IllegalArgumentException("Invalid obj file: face vertex data did not have 3 elements. Has " + items.length);
+            if (items.length != 3)
+                throw new IllegalArgumentException("Invalid obj file: face vertex data did not have 3 elements. Has " + items.length);
             Vector3f position = parseVertexIndex(items[0], "position", positions);
             Vector3f normal = parseVertexIndex(items[2], "normal", normals);
             Vector2f tex = parseVertexIndex(items[1], "tex", uvs);
@@ -157,8 +156,10 @@ public class ObjModel {
 
         public <T> T parseVertexIndex(String string, String indexType, List<T> values) {
             int index = Integer.parseInt(string);
-            if (index < 0) throw new IllegalArgumentException("Invalid obj file: face vertex " + indexType + " index must be positive, was " + index);
-            if (index > values.size()) throw new IllegalArgumentException("Invalid obj file: face vertex " + indexType + " index out of bounds. limit is " + values.size() + ", was " + index);
+            if (index < 0)
+                throw new IllegalArgumentException("Invalid obj file: face vertex " + indexType + " index must be positive, was " + index);
+            if (index > values.size())
+                throw new IllegalArgumentException("Invalid obj file: face vertex " + indexType + " index out of bounds. limit is " + values.size() + ", was " + index);
             return values.get(index - 1);
         }
     }

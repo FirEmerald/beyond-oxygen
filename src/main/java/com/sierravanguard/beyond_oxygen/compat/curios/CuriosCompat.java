@@ -2,7 +2,6 @@ package com.sierravanguard.beyond_oxygen.compat.curios;
 
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 

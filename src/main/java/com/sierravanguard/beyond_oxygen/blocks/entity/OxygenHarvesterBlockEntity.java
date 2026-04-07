@@ -1,6 +1,5 @@
 package com.sierravanguard.beyond_oxygen.blocks.entity;
 
-import com.sierravanguard.beyond_oxygen.BOConfig;
 import com.sierravanguard.beyond_oxygen.registry.BOBlockEntities;
 import com.sierravanguard.beyond_oxygen.registry.BOFluids;
 import com.sierravanguard.beyond_oxygen.utils.HermeticArea;
@@ -9,7 +8,6 @@ import com.sierravanguard.beyond_oxygen.utils.HermeticAreaServerManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
@@ -22,7 +20,6 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +34,6 @@ public class OxygenHarvesterBlockEntity extends BlockEntity {
 
     private long savedAreaId = -1;
     private float oxygenLastHarvested = 0;
-    private int assignmentCooldown = 0;
     private boolean isInHarvestCycle = false;
 
     private HermeticArea cachedSealedArea = null;

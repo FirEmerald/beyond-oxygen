@@ -11,6 +11,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -20,8 +21,9 @@ public class BOEntityTypeTagsProvider extends TagsProvider<EntityType<?>> {
         super(pOutput, Registries.ENTITY_TYPE, lookupProvider, BeyondOxygen.MODID, existingFileHelper);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    protected void addTags(HolderLookup.Provider lookupProvider) {
+    protected void addTags(@NotNull HolderLookup.Provider lookupProvider) {
         this.tag(BOEntityTypeTags.SURVIVES_VACUUM)
                 .addTag(EntityTypeTags.SKELETONS)
                 .add(EntityType.SKELETON_HORSE.builtInRegistryHolder().key())

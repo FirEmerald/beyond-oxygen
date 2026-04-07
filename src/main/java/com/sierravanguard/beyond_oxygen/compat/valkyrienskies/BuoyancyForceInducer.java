@@ -1,6 +1,5 @@
 package com.sierravanguard.beyond_oxygen.compat.valkyrienskies;
 import com.sierravanguard.beyond_oxygen.BOConfig;
-import com.sierravanguard.beyond_oxygen.BOServerConfig;
 import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.core.api.ships.LoadedServerShip;
 import org.valkyrienskies.core.api.ships.PhysShip;
@@ -31,6 +30,7 @@ public final class BuoyancyForceInducer implements ShipPhysicsListener {
         double buoyance = (oldMass + data.totalVolume * defaultDensity) / (oldMass + data.totalVolume * AIR_DENSITY);
         physShip.setBuoyantFactor(buoyance);
     }
+
     public static BuoyancyForceInducer tickOnShip(final LoadedServerShip ship, double sealedVolume) {
         BuoyancyForceInducer attachment = ship.getOrPutAttachment(BuoyancyForceInducer.class, BuoyancyForceInducer::new);
 
