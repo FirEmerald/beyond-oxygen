@@ -1,6 +1,5 @@
 package com.sierravanguard.beyond_oxygen.items.armor;
 
-import com.sierravanguard.beyond_oxygen.BOConfig;
 import com.sierravanguard.beyond_oxygen.BeyondOxygen;
 import com.sierravanguard.beyond_oxygen.tags.BOItemTags;
 import net.minecraft.sounds.SoundEvent;
@@ -8,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
@@ -44,8 +42,7 @@ public enum SpaceSuitArmorMaterial implements ArmorMaterial {
         this.repairIngredient = repairIngredient;
     }
 
-    private static final int[] DURABILITY = {13, 15, 16, 11}; 
-    private static final int[] DEFENSE = {1, 3, 4, 2};
+    private static final int[] DURABILITY = {13, 15, 16, 11};
 
     @Override
     public int getDurabilityForType(ArmorItem.Type type) {
@@ -54,7 +51,7 @@ public enum SpaceSuitArmorMaterial implements ArmorMaterial {
 
     @Override
     public int getDefenseForType(ArmorItem.Type type) {
-        return DEFENSE[type.ordinal()];
+        return protectionAmounts[type.ordinal()];
     }
 
     @Override
