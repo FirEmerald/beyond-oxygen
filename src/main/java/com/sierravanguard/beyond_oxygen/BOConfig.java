@@ -15,6 +15,8 @@
     public class BOConfig {
         private static final ForgeConfigSpec.ConfigValue<Integer> VENT_RANGE;
         private static final ForgeConfigSpec.ConfigValue<Integer> OXYGEN_CONSUMPTION;
+        private static final ForgeConfigSpec.BooleanValue SUFFOCATE_WATER_CREATURES;
+        private static final ForgeConfigSpec.ConfigValue<Integer> VACUUM_AIR_CONSUMPTION;
 
         private static final ForgeConfigSpec.ConfigValue<Integer> BUBBLE_MAX_RADIUS;
         private static final ForgeConfigSpec.ConfigValue<Integer> TIME_TO_IMPLODE;
@@ -45,6 +47,12 @@
             OXYGEN_CONSUMPTION = builder
                     .comment("How many oxygen units in 1 mb")
                     .define("oxygenConsumption", 10);
+            SUFFOCATE_WATER_CREATURES = builder
+                    .comment("Should water creatures (such as fish) suffocate in water in unbreathable dimensions")
+                    .define("suffocateWaterCreatures", true);
+            VACUUM_AIR_CONSUMPTION = builder
+                    .comment("How much air an entity should lose each tick from being in a vacuum. Set to -1 to being suffocating instantly.")
+                    .defineInRange("vacuumAirConsumption", -1, -1, Integer.MAX_VALUE);
             DEFAULT_DENSITY = builder
                     .comment("The approximate density of a ships to use in buoyancy calculations. Set to 0 to disable buoyancy.")
                     .defineInRange("shipDensity", 600d, 0, Double.MAX_VALUE);
@@ -98,6 +106,8 @@
 
         private static int ventRange;
         private static int oxygenConsumption;
+        private static boolean suffocateWaterCreatures;
+        private static int vacuumAirConsumption;
         private static double defaultDensity;
 
         private static int bubbleMaxRadius;
@@ -119,6 +129,8 @@
             babyMode = ENABLE_BABY_MODE.get();
             ventRange = VENT_RANGE.get();
             oxygenConsumption = OXYGEN_CONSUMPTION.get();
+            suffocateWaterCreatures = SUFFOCATE_WATER_CREATURES.get();
+            vacuumAirConsumption = VACUUM_AIR_CONSUMPTION.get();
             defaultDensity = DEFAULT_DENSITY.get();
 
             bubbleMaxRadius = BUBBLE_MAX_RADIUS.get();
@@ -162,6 +174,14 @@
 
         public static int getOxygenConsumption() {
             return oxygenConsumption;
+        }
+
+        public static boolean getSuffocateWaterCreatures() {
+            return suffocateWaterCreatures;
+        }
+
+        public static int getVacuumAirConsumption() {
+            return vacuumAirConsumption;
         }
 
         public static double getDefaultDensity() {

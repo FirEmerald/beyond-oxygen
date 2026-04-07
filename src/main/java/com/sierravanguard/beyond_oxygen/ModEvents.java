@@ -6,6 +6,7 @@ import com.sierravanguard.beyond_oxygen.extensions.ILivingEntityExtension;
 import com.sierravanguard.beyond_oxygen.items.armor.IOpenableSpacesuitHelmetItem;
 import com.sierravanguard.beyond_oxygen.registry.BODamageSources;
 import com.sierravanguard.beyond_oxygen.registry.BODimensions;
+import com.sierravanguard.beyond_oxygen.registry.BOEffects;
 import com.sierravanguard.beyond_oxygen.registry.BOFluids;
 import com.sierravanguard.beyond_oxygen.tags.BOItemTags;
 import com.sierravanguard.beyond_oxygen.utils.*;
@@ -16,6 +17,7 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -26,12 +28,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
+import net.minecraftforge.event.entity.living.LivingBreatheEvent;
+import net.minecraftforge.event.entity.living.LivingDrownEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -172,6 +177,38 @@ public class ModEvents {
         if (entity instanceof IEntityExtension extension) {
             extension.beyond_oxygen$getAreasIn().forEach(area -> area.removeEntity(entity, null));
             extension.beyond_oxygen$getAreasIn().clear();
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void livingBreatheDeny(LivingBreatheEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity.hasEffect(BOEffects.OXYGEN_SATURATION.get()) || ((ILivingEntityExtension) entity).beyond_oxygen$getAreasIn().stream().anyMatch(HermeticArea::hasAir)) return;
+        if (BODimensions.isUnbreathable(entity.level())) {
+            if (BOConfig.getSuffocateWaterCreatures() || !(entity instanceof WaterAnimal && entity.isInWaterOrBubble())) {
+                event.setCanBreathe(false);
+                int consume = BOConfig.getVacuumAirConsumption();
+                if (consume < 0) consume = entity.getMaxAirSupply();
+                event.setConsumeAirAmount(Math.min(consume, entity.getAirSupply()));
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void livingBreathAllow(LivingBreatheEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity.hasEffect(BOEffects.OXYGEN_SATURATION.get()) || ((ILivingEntityExtension) entity).beyond_oxygen$getAreasIn().stream().anyMatch(HermeticArea::hasAir)) {
+            event.setCanBreathe(true);
+            event.setCanRefillAir(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDrown(LivingDrownEvent event) {
+        //prevent drowning when has air or is suffocating
+        LivingEntity entity = event.getEntity();
+        if (entity.hasEffect(BOEffects.OXYGEN_SATURATION.get()) || ((ILivingEntityExtension) entity).beyond_oxygen$getAreasIn().stream().anyMatch(HermeticArea::hasAir) || BODimensions.isUnbreathable(entity.level())) {
+            event.setDrowning(false);
         }
     }
 }
